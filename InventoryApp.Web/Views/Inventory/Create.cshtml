@@ -1,0 +1,26 @@
+﻿@using InventoryApp.Data.Models
+@model Inventory
+
+<h2>Add a New Item</h2>
+
+<form asp-action="Create" method="post">
+    <div>
+        <label for="Title">Title</label>
+        <input asp-for="Title" class="form-control" />
+    </div>
+    <div>
+        <label for="Supplier">Supplier</label>
+        <input asp-for="Supplier" class="form-control" />
+    </div>
+    <div>
+        <label for="Quantity">Quantity</label>
+        <input asp-for="Quantity" class="form-control" />
+    </div>
+    <div>
+        <label for="Price">Price</label>
+        <input asp-for="Price" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary mt-2">Create Item</button>
+</form>
+
+<a asp-action="Index">Back to Inventory List</a>

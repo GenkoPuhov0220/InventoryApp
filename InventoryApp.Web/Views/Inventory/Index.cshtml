@@ -1,0 +1,28 @@
+﻿@using InventoryApp.Data.Models
+@model IEnumerable<Inventory>
+
+<h2>All Inventory</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Supplier</th>
+            <th>Price</th>
+            <th>Quantity</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (Inventory movie in Model)
+        {
+            <tr>
+                <td>@movie.Title</td>
+                <td>@movie.Supplier</td>
+                <td>@movie.Price</td>
+                <td>@movie.Quantity</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-action="Create" class="btn btn-primary">Add New Item</a>
