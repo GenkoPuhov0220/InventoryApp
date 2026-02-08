@@ -1,5 +1,5 @@
-﻿@using InventoryApp.Data.Models
-@model Inventory
+﻿@using InventoryApp.Web.ViewModel.Inventory
+@model AddItemInputModel
 
 <h2>Add a New Item</h2>
 
@@ -7,10 +7,12 @@
     <div>
         <label for="Title">Title</label>
         <input asp-for="Title" class="form-control" />
+        <span asp-validation-for="Title" class="text-danger"></span>
     </div>
     <div>
         <label for="Supplier">Supplier</label>
         <input asp-for="Supplier" class="form-control" />
+        <span asp-validation-for="Supplier" class="text-danger"></span>
     </div>
     <div>
         <label for="Quantity">Quantity</label>

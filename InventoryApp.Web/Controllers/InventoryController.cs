@@ -1,5 +1,6 @@
 ﻿using InventoryApp.Data;
 using InventoryApp.Data.Models;
+using InventoryApp.Web.ViewModel.Inventory;
 using Microsoft.AspNetCore.Mvc;
 
 namespace InventoryApp.Web.Controllers
@@ -29,10 +30,22 @@ namespace InventoryApp.Web.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult Create(Inventory inventory)
+        public IActionResult Create(AddItemInputModel inventory)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(inventory);
+            }
             
-            dbContext.Inventories.Add(inventory);
+            Inventory newInventory = new Inventory()
+            {
+                Title = inventory.Title,
+                Supplier = inventory.Supplier,
+                Quantity = inventory.Quantity,
+                Price = inventory.Price
+            };
+
+            dbContext.Inventories.Add(newInventory);
             dbContext.SaveChanges();
             return RedirectToAction("Index");
         }

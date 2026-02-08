@@ -20,6 +20,10 @@
                 <td>@movie.Supplier</td>
                 <td>@movie.Price</td>
                 <td>@movie.Quantity</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@movie.Id" class="btn btn-warning btn-sm">Edit</a>
+                    <a asp-action="Delete"asp-route-id="@movie.Id"class="btn btn-danger btn-sm">Delete</a>
+                </td>
             </tr>
         }
     </tbody>

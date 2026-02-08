@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\InventoryApp.Common\InventoryApp.Common.csproj" />
+  </ItemGroup>
+
 </Project>
