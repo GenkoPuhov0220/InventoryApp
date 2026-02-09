@@ -2,31 +2,47 @@
 @model IEnumerable<Inventory>
 
 <h2>All Inventory</h2>
-
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Title</th>
-            <th>Supplier</th>
-            <th>Price</th>
-            <th>Quantity</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (Inventory item in Model)
-        {
+<div class="container my-4">
+    <div class="text-center mb-3">
+        <form method = "get" class="d-flex justify-content-center align-items-center" asp-action="Index" asp-controller="Inventory">
+            <input name="searchString"
+                   class="form-control me-2 w-50 search-input"
+                   type="search"
+                   placeholder="Search items..."
+                   aria-label="Search" />
+            <button class="btn btn-search px-4" type="submit">
+                <i class="fas fa-search me-1"></i> Search
+            </button>
+            <a asp-action="Index" asp-controller="Inventory" class="btn btn-outline-secondary">✕</a>
+        </form>
+    </div>
+</div>
+<div style="max-height: 400px; overflow-y: auto;">
+    <table class="table table-striped">
+        <thead>
             <tr>
-                <td>@item.Title</td>
-                <td>@item.Supplier</td>
-                <td>@item.Price</td>
-                <td>@item.Quantity</td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning btn-sm">Edit</a>
-                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm">Delete</a>
-                </td>
+                <th>Title</th>
+                <th>Supplier</th>
+                <th>Price</th>
+                <th>Quantity</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (Inventory item in Model)
+            {
+                <tr>
+                    <td>@item.Title</td>
+                    <td>@item.Supplier</td>
+                    <td>@item.Price</td>
+                    <td>@item.Quantity</td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning btn-sm">Edit</a>
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
 
 <a asp-action="Create" class="btn btn-primary">Add New Item</a>

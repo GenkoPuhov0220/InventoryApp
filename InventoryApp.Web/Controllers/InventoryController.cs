@@ -16,13 +16,17 @@ namespace InventoryApp.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
             IEnumerable<Inventory> allInventories = await dbContext
                 .Inventories
                 .Where(i => i.IsDeleted == false)
                 .ToListAsync();
-
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                allInventories = allInventories
+                    .Where(i => i.Title.ToLower().Contains(searchString.ToLower()));
+            }
             return View(allInventories);
         }
 
