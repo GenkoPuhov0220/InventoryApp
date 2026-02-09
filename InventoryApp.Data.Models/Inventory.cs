@@ -13,9 +13,6 @@ namespace InventoryApp.Data.Models
         public string Supplier { get; set; } = null!;
         public int Quantity { get; set; }
         public decimal Price { get; set; }
-
-
-
-
+        public bool IsDeleted { get; set; }
     }
 }

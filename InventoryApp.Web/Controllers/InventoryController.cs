@@ -20,6 +20,7 @@ namespace InventoryApp.Web.Controllers
         {
             IEnumerable<Inventory> allInventories = await dbContext
                 .Inventories
+                .Where(i => i.IsDeleted == false)
                 .ToListAsync();
 
             return View(allInventories);
@@ -37,7 +38,7 @@ namespace InventoryApp.Web.Controllers
             {
                 return View(inventory);
             }
-            
+
             Inventory newInventory = new Inventory()
             {
                 Title = inventory.Title,
@@ -46,12 +47,12 @@ namespace InventoryApp.Web.Controllers
                 Price = inventory.Price
             };
 
-           await dbContext.Inventories.AddAsync(newInventory);
-           await dbContext.SaveChangesAsync();
+            await dbContext.Inventories.AddAsync(newInventory);
+            await dbContext.SaveChangesAsync();
             return RedirectToAction("Index");
         }
         [HttpGet]
-        public async Task<IActionResult> Edit(string? id) 
+        public async Task<IActionResult> Edit(string? id)
         {
             if (String.IsNullOrWhiteSpace(id))
             {
@@ -64,10 +65,10 @@ namespace InventoryApp.Web.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-           Inventory? item = dbContext.Inventories
-                .FirstOrDefault(i => i.Id == inventoryGuid);
+            Inventory? item = dbContext.Inventories
+                 .FirstOrDefault(i => i.Id == inventoryGuid);
 
-            if (item == null) 
+            if (item == null)
             {
                 return RedirectToAction(nameof(Index));
             }
@@ -83,7 +84,7 @@ namespace InventoryApp.Web.Controllers
             return View(newInventory);
         }
         [HttpPost]
-        public async Task<IActionResult> Edit(string id,EditItemViewModel inventory)
+        public async Task<IActionResult> Edit(string id, EditItemViewModel inventory)
         {
             if (!ModelState.IsValid)
             {
@@ -113,6 +114,64 @@ namespace InventoryApp.Web.Controllers
             return RedirectToAction(nameof(Index));
 
         }
-            
+        [HttpGet]
+        public async Task<IActionResult> Delete(string? id)
+        {
+            if (String.IsNullOrWhiteSpace(id))
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            bool IsGuidValid = Guid.TryParse(id, out Guid inventoryGuid);
+           
+            if (!IsGuidValid)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            Inventory? item = await dbContext.Inventories
+                .FirstOrDefaultAsync(i => i.Id == inventoryGuid);
+
+            if (item == null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            DeleteItemViewModel itemforDelete = new DeleteItemViewModel
+            {
+                Title = item.Title,
+                Supplier = item.Supplier,
+                Quantity = item.Quantity,
+                Price = item.Price
+            };
+
+            return View(itemforDelete);
+
+        }
+        [HttpPost]
+        public async Task<IActionResult> ConfirmedDelete(string id)
+        {
+            bool IsGuidValid = Guid.TryParse(id, out Guid inventoryGuid);
+            if (!IsGuidValid)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            Inventory? item = await dbContext.Inventories
+                .FirstOrDefaultAsync(i => i.Id == inventoryGuid);
+
+            if (item == null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            item.IsDeleted = true;
+
+            await dbContext.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+
+        }  
+
+
     }
 }

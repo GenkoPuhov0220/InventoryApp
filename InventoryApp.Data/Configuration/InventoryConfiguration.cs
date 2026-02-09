@@ -23,6 +23,9 @@ namespace InventoryApp.Data.Configuration
             builder
                 .Property(i => i.Price)
                 .HasColumnType("decimal(18,2)");
+            builder 
+                .Property(i => i.IsDeleted)
+                .HasDefaultValue(false);
             builder
                 .HasData(this.SeedInventory());
         }
