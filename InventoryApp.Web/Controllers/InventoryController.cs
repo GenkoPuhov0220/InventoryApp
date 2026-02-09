@@ -48,7 +48,8 @@ namespace InventoryApp.Web.Controllers
                 Title = inventory.Title,
                 Supplier = inventory.Supplier,
                 Quantity = inventory.Quantity,
-                Price = inventory.Price
+                UnitPrice = inventory.UnitPrice,
+                Price = inventory.UnitPrice * inventory.Quantity
             };
 
             await dbContext.Inventories.AddAsync(newInventory);
@@ -82,6 +83,7 @@ namespace InventoryApp.Web.Controllers
                 Title = item.Title,
                 Supplier = item.Supplier,
                 Quantity = item.Quantity,
+                UnitPrice = item.UnitPrice,
                 Price = item.Price
             };
 
@@ -112,7 +114,8 @@ namespace InventoryApp.Web.Controllers
             item.Title = inventory.Title;
             item.Supplier = inventory.Supplier;
             item.Quantity = inventory.Quantity;
-            item.Price = inventory.Price;
+            item.UnitPrice = inventory.UnitPrice;
+            item.Price = inventory.UnitPrice * inventory.Quantity;
 
             await dbContext.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
@@ -146,6 +149,7 @@ namespace InventoryApp.Web.Controllers
                 Title = item.Title,
                 Supplier = item.Supplier,
                 Quantity = item.Quantity,
+                UnitPrice = item.UnitPrice,
                 Price = item.Price
             };
 

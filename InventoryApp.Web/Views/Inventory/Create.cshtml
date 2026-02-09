@@ -19,10 +19,34 @@
         <input asp-for="Quantity" class="form-control" />
     </div>
     <div>
+        <label for="UnitPrice">UnitPrice</label>
+        <input asp-for="UnitPrice" class="form-control" />
+    </div>
+    <div>
         <label for="Price">Price</label>
-        <input asp-for="Price" class="form-control" />
+        <<input asp-for="Price" class="form-control" readonly />
     </div>
     <button type="submit" class="btn btn-primary mt-2">Create Item</button>
 </form>
 
 <a asp-action="Index">Back to Inventory List</a>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        const quantityInput = document.getElementById("Quantity");
+        const unitPriceInput = document.getElementById("UnitPrice");
+        const priceInput = document.getElementById("Price");
+
+        function calculatePrice() {
+            let quantity = parseFloat(quantityInput.value) || 0;
+            let unitPrice = parseFloat(unitPriceInput.value) || 0;
+
+            priceInput.value = (quantity * unitPrice).toFixed(2);
+        }
+
+        quantityInput.addEventListener("input", calculatePrice);
+        unitPriceInput.addEventListener("input", calculatePrice);
+    });
+</script>

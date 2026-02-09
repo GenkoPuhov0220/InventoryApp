@@ -23,6 +23,7 @@
             <tr>
                 <th>Title</th>
                 <th>Supplier</th>
+                <th>Unit Price</th>
                 <th>Price</th>
                 <th>Quantity</th>
             </tr>
@@ -33,6 +34,7 @@
                 <tr>
                     <td>@item.Title</td>
                     <td>@item.Supplier</td>
+                    <td>@item.UnitPrice</td>
                     <td>@item.Price</td>
                     <td>@item.Quantity</td>
                     <td>
@@ -46,3 +48,4 @@
 </div>
 
 <a asp-action="Create" class="btn btn-primary">Add New Item</a>
+<a asp-action="Report" class="btn btn-primary">Create report</a>

@@ -11,6 +11,7 @@ namespace InventoryApp.Web.ViewModel.Inventory
         [Required]
         public int Quantity { get; set; }
         [Required]
+        public decimal UnitPrice { get; set; }
         public decimal Price { get; set; }
     }
 }
