@@ -2,6 +2,7 @@
 using InventoryApp.Data.Models;
 using InventoryApp.Web.ViewModel.Inventory;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace InventoryApp.Web.Controllers
 {
@@ -15,22 +16,22 @@ namespace InventoryApp.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            IEnumerable<Inventory> allInventories = dbContext
+            IEnumerable<Inventory> allInventories = await dbContext
                 .Inventories
-                .ToList();
+                .ToListAsync();
 
             return View(allInventories);
         }
 
         [HttpGet]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
             return View();
         }
         [HttpPost]
-        public IActionResult Create(AddItemInputModel inventory)
+        public async Task<IActionResult> Create(AddItemInputModel inventory)
         {
             if (!ModelState.IsValid)
             {
@@ -45,9 +46,73 @@ namespace InventoryApp.Web.Controllers
                 Price = inventory.Price
             };
 
-            dbContext.Inventories.Add(newInventory);
-            dbContext.SaveChanges();
+           await dbContext.Inventories.AddAsync(newInventory);
+           await dbContext.SaveChangesAsync();
             return RedirectToAction("Index");
         }
+        [HttpGet]
+        public async Task<IActionResult> Edit(string? id) 
+        {
+            if (String.IsNullOrWhiteSpace(id))
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            bool IsGuidValid = Guid.TryParse(id, out Guid inventoryGuid);
+            if (!IsGuidValid)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+           Inventory? item = dbContext.Inventories
+                .FirstOrDefault(i => i.Id == inventoryGuid);
+
+            if (item == null) 
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            EditItemViewModel newInventory = new EditItemViewModel
+            {
+                Title = item.Title,
+                Supplier = item.Supplier,
+                Quantity = item.Quantity,
+                Price = item.Price
+            };
+
+            return View(newInventory);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Edit(string id,EditItemViewModel inventory)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(inventory);
+            }
+
+            bool IsGuidValid = Guid.TryParse(id, out Guid inventoryGuid);
+            if (!IsGuidValid)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            Inventory? item = await dbContext.Inventories
+            .FirstOrDefaultAsync(i => i.Id == inventoryGuid);
+
+            if (item == null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            item.Title = inventory.Title;
+            item.Supplier = inventory.Supplier;
+            item.Quantity = inventory.Quantity;
+            item.Price = inventory.Price;
+
+            await dbContext.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+
+        }
+            
     }
 }

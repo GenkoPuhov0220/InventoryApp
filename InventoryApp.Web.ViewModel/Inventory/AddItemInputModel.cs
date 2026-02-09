@@ -16,10 +16,12 @@ namespace InventoryApp.Web.ViewModel.Inventory
         public string Supplier { get; set; } = null!;
 
         [Required]
-        [MinLength(QuantityMinValue)]
+        [Range(0, int.MaxValue, ErrorMessage = "Quantity must be positive")]
         public int Quantity { get; set; }
 
         [Required]
+        [Range(typeof(decimal), "0", "79228162514264337593543950335",
+            ErrorMessage = "Price must be positive")]
         public decimal Price { get; set; }
 
     }
