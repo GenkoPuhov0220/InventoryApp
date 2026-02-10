@@ -1,2 +1,39 @@
-﻿<h2>@ViewData["Title"]</h2>
-<h3>@ViewData["Message"]</h3>
+﻿@{
+ViewData["Title"] = "Home";
+            }
+
+<div class="container mt-5">
+    <div class="text-center">
+
+        <h1 class="display-4 mb-4">Inventory Management System</h1>
+
+        <p class="lead mb-5">
+            Manage your products easily – create, edit and archive items.
+        </p>
+
+        <div class="row justify-content-center mt-4">
+
+            <div class="col-md-4">
+                <div class="card shadow-lg border-0 rounded-4 p-4">
+                    <h3>View Inventory</h3>
+                    <p>See all active products in the system.</p>
+                    <a asp-controller="Inventory" asp-action="Index" class="btn btn-primary">
+                        Go to Inventory
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card shadow-lg border-0 rounded-4 p-4">
+                    <h3>Add Product</h3>
+                    <p>Create a new inventory item.</p>
+                    <a asp-controller="Inventory" asp-action="Create" class="btn btn-success">
+                        Add Product
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
