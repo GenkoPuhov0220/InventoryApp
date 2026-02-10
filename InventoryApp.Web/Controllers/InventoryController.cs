@@ -178,8 +178,24 @@ namespace InventoryApp.Web.Controllers
             await dbContext.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
 
-        }  
+        }
+        [HttpGet]
+        public async Task<IActionResult> Report()
+        {
+            var items = await dbContext.Inventories
+                .Where(i => !i.IsDeleted)
+                .Select(i => new ReportItemViewModel
+                {
+                    Title = i.Title,
+                    Supplier = i.Supplier,
+                    Quantity = i.Quantity,
+                    UnitPrice = i.UnitPrice,
+                    Price = i.Quantity * i.Price
+                })
+                .ToListAsync();
 
+            return View(items);
+        }
 
     }
 }

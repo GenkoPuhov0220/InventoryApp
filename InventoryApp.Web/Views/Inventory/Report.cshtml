@@ -1,0 +1,40 @@
+﻿@using InventoryApp.Web.ViewModel.Inventory
+@model IEnumerable<ReportItemViewModel>
+
+<h2>Inventory Report</h2>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Supplier</th>
+            <th>Quantity</th>
+            <th>Unit Price</th>
+            <th>Price</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            decimal grandTotal = 0;
+        }
+
+        @foreach (var item in Model)
+        {
+            grandTotal += item.Price;
+
+            <tr>
+                <td>@item.Title</td>
+                <td>@item.Supplier</td>
+                <td>@item.Quantity</td>
+                <td>@item.UnitPrice.ToString("F2")</td>
+                <td>@item.Price.ToString("F2")</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<h3 class="mt-3">
+    Total: <strong>@grandTotal.ToString("F2")</strong>
+</h3>
+
+<a asp-action="Index" class="btn btn-secondary mt-3">Back</a>
