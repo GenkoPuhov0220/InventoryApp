@@ -21,6 +21,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{0B
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InventoryApp.Services.Data", "InventoryApp.Services.Data\InventoryApp.Services.Data.csproj", "{7021E060-8257-40E3-80F4-BE9951616CD0}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{01B8B2BF-F537-46ED-A721-677EF7DB5D40}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InventoryApp.Services.Tests", "InventoryApp.Services.Tests\InventoryApp.Services.Tests.csproj", "{DDD2405F-BB12-410F-AE1E-B6292BA24058}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +55,10 @@ Global
 		{7021E060-8257-40E3-80F4-BE9951616CD0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7021E060-8257-40E3-80F4-BE9951616CD0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7021E060-8257-40E3-80F4-BE9951616CD0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DDD2405F-BB12-410F-AE1E-B6292BA24058}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DDD2405F-BB12-410F-AE1E-B6292BA24058}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DDD2405F-BB12-410F-AE1E-B6292BA24058}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DDD2405F-BB12-410F-AE1E-B6292BA24058}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -61,6 +69,7 @@ Global
 		{45C919B8-1BE0-480D-93BF-A4427D8F411B} = {788C61DE-220A-46B7-9E0E-767A150A536A}
 		{23E892FA-A376-427B-BC83-1E7A7FFA9EE9} = {788C61DE-220A-46B7-9E0E-767A150A536A}
 		{7021E060-8257-40E3-80F4-BE9951616CD0} = {0B9ED686-23ED-4C36-87F1-EEB3E9A193D7}
+		{DDD2405F-BB12-410F-AE1E-B6292BA24058} = {01B8B2BF-F537-46ED-A721-677EF7DB5D40}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {983C45F4-09A0-4A35-AEEC-B66EAA68B862}

@@ -4,6 +4,7 @@ using InventoryApp.Services.Data.Interfaces;
 using InventoryApp.Web.ViewModel.Inventory;
 using InventoryApp.Data.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Runtime.InteropServices;
 namespace InventoryApp.Services.Data
 {
     public class InventoryServices : IInventoryServices
@@ -82,6 +83,8 @@ namespace InventoryApp.Services.Data
             editItem.Quantity = item.Quantity;
             editItem.UnitPrice = item.UnitPrice;
             editItem.Price = item.UnitPrice * item.Quantity;
+
+            await dbContext.SaveChangesAsync();
         }
 
         public async Task<DeleteItemViewModel?> GetForDeleteAsync(string id)
