@@ -26,12 +26,12 @@ Technologies
 - 
  Project Architecture
 
--InventoryApp.Web MVC UI - Controllers & Views
--InventoryApp.Web.ViewModel - ViewModels used by the UI 
--InventoryApp.Services.Data -  Business logic 
--InventoryApp.Data - DbContext 
--InventoryApp.Data.Models - Database entities
--InventoryApp.Services.Tests - Unit tests 
+-InventoryApp.Web MVC UI -> Controllers & Views
+-InventoryApp.Web.ViewModel -> ViewModels used by the UI 
+-InventoryApp.Services.Data -> Business logic 
+-InventoryApp.Data -> DbContext 
+-InventoryApp.Data.Models -> Database entities
+-InventoryApp.Services.Tests -> Unit tests 
 
 
 Как да стартирате приложението
