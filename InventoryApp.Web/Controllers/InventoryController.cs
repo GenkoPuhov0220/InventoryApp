@@ -1,5 +1,6 @@
 ﻿using InventoryApp.Data;
 using InventoryApp.Data.Models;
+using InventoryApp.Services.Data.Interfaces;
 using InventoryApp.Web.ViewModel.Inventory;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -8,20 +9,19 @@ namespace InventoryApp.Web.Controllers
 {
     public class InventoryController : Controller
     {
-        private InventoryDbContext dbContext;
-
-        public InventoryController(InventoryDbContext dbContext)
+        private readonly IInventoryServices inventoryServices;
+        public InventoryController(IInventoryServices _inventoryServices)
         {
-            this.dbContext = dbContext;
+            inventoryServices = _inventoryServices;
         }
 
         [HttpGet]
         public async Task<IActionResult> Index(string searchString)
         {
-            IEnumerable<Inventory> allInventories = await dbContext
-                .Inventories
-                .Where(i => i.IsDeleted == false)
-                .ToListAsync();
+
+            var allInventories = await inventoryServices
+                .IndexGetAllAsync();
+           
             if (!String.IsNullOrEmpty(searchString))
             {
                 allInventories = allInventories
@@ -42,159 +42,59 @@ namespace InventoryApp.Web.Controllers
             {
                 return View(inventory);
             }
-
-            Inventory newInventory = new Inventory()
-            {
-                Title = inventory.Title,
-                Supplier = inventory.Supplier,
-                Quantity = inventory.Quantity,
-                UnitPrice = inventory.UnitPrice,
-                Price = inventory.UnitPrice * inventory.Quantity
-            };
-
-            await dbContext.Inventories.AddAsync(newInventory);
-            await dbContext.SaveChangesAsync();
+            await inventoryServices.CreateAsync(inventory);
             return RedirectToAction("Index");
         }
         [HttpGet]
         public async Task<IActionResult> Edit(string? id)
         {
-            if (String.IsNullOrWhiteSpace(id))
+            var editInventory = await inventoryServices.GetForEditAsync(id);
+            
+
+            if (editInventory == null)
             {
                 return RedirectToAction(nameof(Index));
             }
 
-            bool IsGuidValid = Guid.TryParse(id, out Guid inventoryGuid);
-            if (!IsGuidValid)
-            {
-                return RedirectToAction(nameof(Index));
-            }
-
-            Inventory? item = dbContext.Inventories
-                 .FirstOrDefault(i => i.Id == inventoryGuid);
-
-            if (item == null)
-            {
-                return RedirectToAction(nameof(Index));
-            }
-
-            EditItemViewModel newInventory = new EditItemViewModel
-            {
-                Title = item.Title,
-                Supplier = item.Supplier,
-                Quantity = item.Quantity,
-                UnitPrice = item.UnitPrice,
-                Price = item.Price
-            };
-
-            return View(newInventory);
+            return View(editInventory);
         }
         [HttpPost]
-        public async Task<IActionResult> Edit(string id, EditItemViewModel inventory)
+        public async Task<IActionResult> Edit(string id,EditItemViewModel inventory)
         {
             if (!ModelState.IsValid)
             {
                 return View(inventory);
             }
 
-            bool IsGuidValid = Guid.TryParse(id, out Guid inventoryGuid);
-            if (!IsGuidValid)
-            {
-                return RedirectToAction(nameof(Index));
-            }
-
-            Inventory? item = await dbContext.Inventories
-            .FirstOrDefaultAsync(i => i.Id == inventoryGuid);
-
-            if (item == null)
-            {
-                return RedirectToAction(nameof(Index));
-            }
-
-            item.Title = inventory.Title;
-            item.Supplier = inventory.Supplier;
-            item.Quantity = inventory.Quantity;
-            item.UnitPrice = inventory.UnitPrice;
-            item.Price = inventory.UnitPrice * inventory.Quantity;
-
-            await dbContext.SaveChangesAsync();
+            await inventoryServices.EditAsync(id, inventory);
             return RedirectToAction(nameof(Index));
 
         }
         [HttpGet]
         public async Task<IActionResult> Delete(string? id)
         {
-            if (String.IsNullOrWhiteSpace(id))
+            var itemForDelete = await inventoryServices
+                .GetForDeleteAsync(id);
+
+            if (itemForDelete == null)
             {
                 return RedirectToAction(nameof(Index));
             }
+            return View(itemForDelete);
 
-            bool IsGuidValid = Guid.TryParse(id, out Guid inventoryGuid);
-           
-            if (!IsGuidValid)
-            {
-                return RedirectToAction(nameof(Index));
-            }
-
-            Inventory? item = await dbContext.Inventories
-                .FirstOrDefaultAsync(i => i.Id == inventoryGuid);
-
-            if (item == null)
-            {
-                return RedirectToAction(nameof(Index));
-            }
-
-            DeleteItemViewModel itemforDelete = new DeleteItemViewModel
-            {
-                Title = item.Title,
-                Supplier = item.Supplier,
-                Quantity = item.Quantity,
-                UnitPrice = item.UnitPrice,
-                Price = item.Price
-            };
-
-            return View(itemforDelete);
 
         }
         [HttpPost]
         public async Task<IActionResult> ConfirmedDelete(string id)
         {
-            bool IsGuidValid = Guid.TryParse(id, out Guid inventoryGuid);
-            if (!IsGuidValid)
-            {
-                return RedirectToAction(nameof(Index));
-            }
-
-            Inventory? item = await dbContext.Inventories
-                .FirstOrDefaultAsync(i => i.Id == inventoryGuid);
-
-            if (item == null)
-            {
-                return RedirectToAction(nameof(Index));
-            }
-
-            item.IsDeleted = true;
-
-            await dbContext.SaveChangesAsync();
+            await inventoryServices.DeleteAsync(id);
             return RedirectToAction(nameof(Index));
-
         }
         [HttpGet]
         public async Task<IActionResult> Report()
         {
-            var items = await dbContext.Inventories
-                .Where(i => !i.IsDeleted)
-                .Select(i => new ReportItemViewModel
-                {
-                    Title = i.Title,
-                    Supplier = i.Supplier,
-                    Quantity = i.Quantity,
-                    UnitPrice = i.UnitPrice,
-                    Price = i.Quantity * i.Price
-                })
-                .ToListAsync();
-
-            return View(items);
+            var report = await inventoryServices.GetReportAsync();
+            return View(report);
         }
 
     }

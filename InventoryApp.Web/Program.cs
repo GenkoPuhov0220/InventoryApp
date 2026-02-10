@@ -1,4 +1,6 @@
 using InventoryApp.Data;
+using InventoryApp.Services.Data;
+using InventoryApp.Services.Data.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace InventoryApp.Web
@@ -16,7 +18,7 @@ namespace InventoryApp.Web
             });
 
             builder.Services.AddControllersWithViews();
-
+            builder.Services.AddScoped<IInventoryServices, InventoryServices>();
             WebApplication app = builder.Build();
 
             // Configure the HTTP request pipeline.
