@@ -8,7 +8,7 @@ InventoryApp е ASP.NET Core MVC уеб приложение за управле
 -Редактиране на съществуващи артикули
 -Изтриване на артикули
 -Търсене и филтриране
--Генериране на отчет (общ брой артикули и обща стойност)
+-Генериране на отчет
 -Seed данни при първо стартиране
 -Unit тестове за бизнес логиката
 
@@ -16,7 +16,7 @@ InventoryApp е ASP.NET Core MVC уеб приложение за управле
 -C#
 -ASP.NET Core MVC
 -Entity Framework Core (Code First)
--SQL Server / LocalDB
+-SQL Server
 -LINQ
 -Razor Views
 -Dependency Injection
@@ -39,12 +39,19 @@ InventoryApp е ASP.NET Core MVC уеб приложение за управле
 2.Отваряне на solution
 
 - Отворете InventoryApp.sln in Visual Studio.
-
-3. Прилагане на миграции
+  
+3. Конфигурация на база данни
+   
+ Connection string се намира в:
+- InventoryApp.Web/appsettings.json/appsettings.Development.json
+Предоставям примерен Connection string
+- SqlServer - "Server =.;Database=InventoryApp;Integrated Security = True; TrustServerCertificate=True"
+  
+5. Прилагане на миграции
 - Отворетр Package Manager Console
 - Вътре в конзолата изписвате командата - Update-Database
 
-4. Стартиране
+5. Стартиране
 - Натискате F5 или Run.
 
 Автор:
